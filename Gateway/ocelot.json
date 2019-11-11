@@ -1,0 +1,37 @@
+{
+  //ReRoutes array allows you to define one or more redirects.
+  //The downstream paths represent the paths to the microservices.
+  //The upstream paths represent how the users will access these microservices via the API Gateway.
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/{apiName}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "ServiceName": "transactionservice",
+      "UpstreamPathTemplate": "/api/transaction/{apiName}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{apiName}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "ServiceName": "customerservice",
+      "UpstreamPathTemplate": "/api/customer/{apiName}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{apiName}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "ServiceName": "accountservice",
+      "UpstreamPathTemplate": "/api/account/{apiName}"
+    }
+  ],
+  "GlobalConfiguration": { //GlobalConfiguration allows you to define the BaseUrl that Ocelot is going to listen to
+    //"BaseUrl": "https://localhost:7000",
+    "UseServiceDiscovery": true,
+    "ServiceDiscoveryProvider": {
+      "Type": "Eureka",
+      "Host": "localhost",
+      "Port": "8761"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  accountapi:
+    image: ${DOCKER_REGISTRY-}accountapi
+    build:
+      context: .
+      dockerfile: AccountAPI/Dockerfile
+    container_name: accountcontainer
+    expose:
+      - "80"
+    ports:
+      - "8084:80"
+    links:
+      - eureka-server:eureka-server
+    depends_on:
+      - eureka-server
+
+  customerapi:
+    image: ${DOCKER_REGISTRY-}customerapi
+    build:
+      context: .
+      dockerfile: CustomerAPI/Dockerfile
+    expose:
+      - "80"
+    ports:
+      - "8085:80"
+    container_name: customercontainer
+    links:
+      - eureka-server:eureka-server
+    depends_on:
+      - eureka-server
+
+
+  transactionapi:
+    image: ${DOCKER_REGISTRY-}transactionapi
+    build:
+      context: .
+      dockerfile: TransactionAPI/Dockerfile
+    container_name: transactioncontainer
+    expose:
+      - "80"
+    ports:
+      - "8086:80"
+    links:
+      - eureka-server:eureka-server
+    depends_on:
+      - eureka-server
+
+   eureka-server:
+       container_name: eureka-server
+       image:
+            kesarwanishashwat/eureka-server:latest
+       expose:
+            - 8761
+       ports:
+            - "8761:8761"   
+       hostname: eureka-service 
+
